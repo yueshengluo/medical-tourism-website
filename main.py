@@ -56,7 +56,10 @@ app = FastAPI(
 
 # Setup templates and static files
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Mount static files only if directory exists
+if os.path.exists("static"):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Routes
 @app.get("/", response_class=HTMLResponse)
